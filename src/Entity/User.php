@@ -3,12 +3,20 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({ "user" = "User",
+ *     "adminSysteme"="AdminSysteme",
+ *     "adminAgence"="AdminAgence",
+ *     "adminHotel"="AdminHotel"})
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -24,9 +32,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $email;
 
-    /**
-     * @ORM\Column(type="json")
-     */
+
     private $roles = [];
 
     /**
@@ -74,6 +80,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\ManyToOne(targetEntity=Profils::class, inversedBy="users")
      */
     private $profil;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Articles::class, mappedBy="user")
+     */
+    private $articles;
+
+    public function __construct()
+    {
+        $this->articles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -214,7 +230,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getAvatar()
     {
-        return $this->avatar;
+        $avatar = $this->avatar;
+        if ($avatar) {
+            return (base64_encode(stream_get_contents($this->avatar)));
+        }
+        return $avatar;
     }
 
     public function setAvatar($avatar): self
@@ -256,6 +276,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setProfil(?Profils $profil): self
     {
         $this->profil = $profil;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Articles[]
+     */
+    public function getArticles(): Collection
+    {
+        return $this->articles;
+    }
+
+    public function addArticle(Articles $article): self
+    {
+        if (!$this->articles->contains($article)) {
+            $this->articles[] = $article;
+            $article->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Articles $article): self
+    {
+        if ($this->articles->removeElement($article)) {
+            // set the owning side to null (unless already changed)
+            if ($article->getUser() === $this) {
+                $article->setUser(null);
+            }
+        }
 
         return $this;
     }
