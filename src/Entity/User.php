@@ -16,7 +16,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\DiscriminatorMap({ "user" = "User",
  *     "adminSysteme"="AdminSysteme",
  *     "adminAgence"="AdminAgence",
- *     "adminHotel"="AdminHotel"})
+ *     "adminHotel"="AdminHotel",
+ *     "utilisateur"="Utilisateur"
+ *     },)
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
