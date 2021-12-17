@@ -17,6 +17,8 @@ DirectoryIndex index.php
     Options -MultiViews
 </IfModule>
 
+
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
     SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
