@@ -289,4 +289,5 @@ class AdminAgenceController extends AbstractController
         return new JsonResponse("L' annulation effectue avec success !!!!!!!",200,[],true);
     }
 
+
 }

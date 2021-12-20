@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -18,7 +19,24 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *     "adminAgence"="AdminAgence",
  *     "adminHotel"="AdminHotel",
  *     "utilisateur"="Utilisateur"
- *     },)
+ *     })
+ * @ApiResource(
+ *     collectionOperations={
+ *          "add_user"={
+ *              "route_name"="addUser",
+ *          },
+ *
+ *      },
+ *      itemOperations={
+ *          "put_user"={
+ *                  "route_name"="putUser",
+ *              },
+ *     "     archive_user"={
+ *                  "route_name"="archiveUser",
+ *              },
+ *
+ *      },
+ *    )
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -71,12 +89,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $abonnement;
+    private $abonnement = true;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $archivage;
+    private $archivage =true;
 
     /**
      * @ORM\ManyToOne(targetEntity=Profils::class, inversedBy="users")
