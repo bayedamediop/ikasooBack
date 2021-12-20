@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Controller;
-
 use App\Entity\Articles;
 use App\Entity\Client;
 use App\Entity\Reservations;
@@ -79,7 +78,7 @@ class AdminAgenceController extends AbstractController
         $articles->setImage3D($photoBlob3d);
         $articles ->setPrix($article['prix']);
         $articles ->setAdresse($article['adresse_article']);
-        $articles->setCreateAt(new \DateTime() );
+        $articles->setCreateAt(new DateTimeZone);
         $articles->setUser($ucecreer);
         // dd($articles);
         $em = $this->getDoctrine()->getManager();
@@ -212,7 +211,7 @@ class AdminAgenceController extends AbstractController
     public function archiveArticle($id,ArticlesRepository $articleRepository,EntityManagerInterface $manager)
     {
         $user = $articleRepository->find($id);
-       $user->setArchivage(new\ DateTime('A'));
+       $user->setArchivage(new DateTimeZone);
         $manager->flush();
         return new JsonResponse("Article Archivé!!!!!!!",200,[],true);
 
