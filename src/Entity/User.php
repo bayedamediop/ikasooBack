@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -28,6 +28,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          "add_user"={
  *              "route_name"="addUser",
  *          },
+ *     "get_users"={
+ *                  "method"="GET",
+ *                    "path" = "/admin/user",
+ *                     "normalization_context"={"groups"={"usersRead:read"}},
+ *              },
  *
  *      },
  *      itemOperations={
@@ -48,7 +53,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      },
  *
  * )
- *  @ApiFilter(SearchFilter::class, properties={"type": "exact"})
+ *  @ApiFilter(BooleanFilter::class, properties={"archivage"})
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
