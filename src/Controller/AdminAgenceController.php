@@ -8,6 +8,7 @@ use App\Repository\ArticlesRepository;
 use App\Repository\ReservationsRepository;
 use App\Repository\UserRepository;
 use App\Service\adminAgence;
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,6 +20,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class AdminAgenceController extends AbstractController
 {
+    private $manager;
+
     /**
      * @Route("/admin/agence", name="admin_agence")
      */
@@ -161,33 +164,33 @@ class AdminAgenceController extends AbstractController
      *
      *   * @Route (
      *     name="putArticleId",
-     *      path="/api/adminHotel/article/{id}",
+     *      path="/api/admin/article/{id}",
      *      methods={"PUT"},
      *     defaults={
-     *           "__controller"="App\Controller\AdminAgenceController::reservation",
+     *           "__controller"="App\Controller\AdminAgenceController::putArticleId",
      *           "__api_ressource_class"=Articles::class,
      *           "__api_collection_operation_name"="put_ArticleId"
      *         }
      * )
      */
-    public function putArticleId($id, adminAgence $service, Request $request,
+    public function putArticleId($id, UserService $service, Request $request,
                                  EntityManagerInterface $manager, SerializerInterface $serializer, ArticlesRepository $u)
     {
-        $userForm= $service->Put($request, 'picture3D');
+
+        $article = $service->getAttributes($request);
+       // $userUpdate = $this->manager->getRepository(User::class)->find($id);
+        $articleForm= $service->getAttributes($request, 'image3D');
         // dd($userForm);
         //$userUpdate = $service->PutUser($request, 'avatar');
         // dd($userUpdate);
-        $user = $u->find($id);
-        foreach ($userForm as $key => $value) {
-//            if($key === 'profil'){
-//                $value = $serializer->denormalize($value, Profil::class);
-//            }
-            $setter = 'set'.ucfirst(trim(strtolower($key)));
-            //dd($setter);
-            if(method_exists(Articles::class, $setter)) {
-                $user->$setter($value);
-                //dd($user);
-            }
+        $articleForm = $manager->getRepository(Articles::class)->find($id);
+        foreach($article as $key=>$valeur){
+            $setter = 'set'.ucfirst(strtolower($key));
+            if(method_exists(Articles::class, $setter)){
+
+                $articleForm->$setter($valeur);
+                }
+
         }
         // dd($user);
         $manager->flush();

@@ -40,13 +40,13 @@ class adminAgence
      * PostController constructor.
      */
     public function __construct(SerializerInterface $serializer, EntityManagerInterface $em,
-                                ValidatorInterface $validator, ProfilRepository  $profileRepository, UserPasswordEncoderInterface $encoder )
+                                ValidatorInterface $validator,  UserPasswordEncoderInterface $encoder )
     {
         $this->serialize = $serializer ;
         $this->validator = $validator ;
         $this->encoder = $encoder ;
         $this->em = $em ;
-        $this->profileRepository = $profileRepository ;
+
     }
 
     /**
