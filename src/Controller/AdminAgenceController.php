@@ -78,7 +78,7 @@ class AdminAgenceController extends AbstractController
         $articles->setImage3D($photoBlob3d);
         $articles ->setPrix($article['prix']);
         $articles ->setAdresse($article['adresse_article']);
-        $articles->setCreateAt(new DateTimeZone);
+        $articles->setCreateAt(new \DateTime());
         $articles->setUser($ucecreer);
         // dd($articles);
         $em = $this->getDoctrine()->getManager();

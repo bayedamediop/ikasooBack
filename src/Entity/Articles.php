@@ -72,7 +72,7 @@ class Articles
     /**
      * @ORM\Column(type="boolean")
      */
-    private $archivage;
+    private $archivage = true;
 
     public function __construct()
     {
