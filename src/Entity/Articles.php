@@ -22,6 +22,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *              },
  *
  *      },
+ *      itemOperations={
+ *   "get_article_by_id"={
+ *                  "method"="GET",
+ *                    "path" = "/admin/article/{id}",
+ *                     "normalization_context"={"groups"={"articlesRead:read"}},
+ *              },
+ *
+ *      },
  *     )
  * @ApiFilter(BooleanFilter::class, properties={"archivage"})
  */
