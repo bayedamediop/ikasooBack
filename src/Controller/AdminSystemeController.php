@@ -64,12 +64,25 @@ class AdminSystemeController extends AbstractController
         $profil= $manager->getRepository(Profils::class)->findOneBy(['libelle' => $user['profils']]);
         if($user['profils'] === "adminAgence"){
             $userObject = $serializer->denormalize($user, AdminAgence::class);
-           // $userObject=$serializer->deserialize($user, );
-//            $agence = $manager->getRepository(AdminAgence::class)->findOneBy(['nomAgence' => $user['agence']]);
-//            if($user['agence']){
-//                $agence = $userObject->se
-//            }
-//            dd($agence);
+//            $newagence = new AdminAgence();
+//            $newagence->setNom($user['nom'])
+//                ->setAdresse($user['adresse'])
+//                ->setEmail($user['email'])
+//                ->setPassword ($this->encoder->encodePassword ($newagence, $user['password']))
+//                ->setPrenom($user['prenom'])
+//                ->setProfil($profil)
+//                ->setAvatar($img)
+//                ->setTelephone($user['telephone'])
+//                 ->setNomAgence($user['nomagence']);
+            $userObject->setAvatar($img);
+           // dd($newagence);
+           $userObject->setProfil($profil);
+
+             //$userObject->setProfil($this->manager->getRepository(Profil::class)->findOneBy(['libelle' => $user['profils']]));
+           $userObject ->setPassword ($this->encoder->encodePassword ($userObject, $user['password']));
+           // $validate->validate($userObject);
+            // dd($userObject);
+            $this->manager->persist($userObject);
         }
        // $agence = $manager->getRepository(AdminAgence::class)->findOneBy(['nomAgence' => $user['agence']]);
        // dd($agence);
@@ -78,15 +91,41 @@ class AdminSystemeController extends AbstractController
 
         if( $user['profils'] === "adminHotel"){
             $userObject = $serializer->denormalize($user, AdminHotel::class);
+            $userObject->setAvatar($img);
+            // dd($userObject);
+            $userObject->setProfil($profil);
+
+            //  $userObject->setProfil($this->manager->getRepository(Profil::class)->findOneBy(['libelle' => $user['profils']]));
+            $userObject ->setPassword ($this->encoder->encodePassword ($userObject, $user['password']));
+            $validate->validate($userObject);
+            // dd($userObject);
+            $this->manager->persist($userObject);
 
 
 
         }if($user['profils'] === "adminSysteme"){
             $userObject = $serializer->denormalize($user, AdminSysteme::class);
+        $userObject->setAvatar($img);
+        // dd($userObject);
+        $userObject->setProfil($profil);
 
+        //  $userObject->setProfil($this->manager->getRepository(Profil::class)->findOneBy(['libelle' => $user['profils']]));
+        $userObject ->setPassword ($this->encoder->encodePassword ($userObject, $user['password']));
+        $validate->validate($userObject);
+        // dd($userObject);
+        $this->manager->persist($userObject);
         }
         if($user['profils'] === "utilisateur"){
             $userObject = $serializer->denormalize($user, Utilisateur::class);
+            $userObject->setAvatar($img);
+            // dd($userObject);
+            $userObject->setProfil($profil);
+
+            //  $userObject->setProfil($this->manager->getRepository(Profil::class)->findOneBy(['libelle' => $user['profils']]));
+            $userObject ->setPassword ($this->encoder->encodePassword ($userObject, $user['password']));
+            $validate->validate($userObject);
+            // dd($userObject);
+            $this->manager->persist($userObject);
 
         }
         //dd($img);
