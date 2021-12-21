@@ -197,7 +197,7 @@ class AdminAgenceController extends AbstractController
         return new JsonResponse("success",200,[],true);
     }
 
-    // _______________________________archiver un user-------------------------
+    // _______________________________archiver un article-------------------------
 
     /**
      * @Route(
@@ -214,12 +214,12 @@ class AdminAgenceController extends AbstractController
     public function archiveArticle($id,ArticlesRepository $articleRepository,EntityManagerInterface $manager)
     {
         $user = $articleRepository->find($id);
-       $user->setArchivage(new DateTimeZone);
+       $user->setArchivage(false);
         $manager->flush();
         return new JsonResponse("Article Archivé!!!!!!!",200,[],true);
 
     }
-    // _______________________________archiver un article-------------------------
+    // _______________________________ger reservation  d'un admin hotell ou agence-------------------------
 
     /**
      * @Route(
