@@ -117,10 +117,11 @@ class AdminSystemeController extends AbstractController
 
     /**
      * @Route(
-     *  name="put_user",
-     *  path="/api/admin/users/{id}",
+     *  name="putUser",
+     *  path="/api/admin/user/{id}",
      *  methods={"PUT"},
      *  defaults={
+     *      "__controller"="App\Controller\AdminSystemeController::putUser",
      *      "_api_collection_operation_name"="put_user",
      *      "api_resource_class"=User::class
      *  }

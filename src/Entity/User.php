@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -28,15 +31,24 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  *      },
  *      itemOperations={
- *          "put_user"={
- *                  "route_name"="putUser",
- *              },
- *     "     archive_user"={
+ *
+ *     "archive_user"={
  *                  "route_name"="archiveUser",
+ *              },
+ *      "put_user"={
+ *                 "route_name"="putUser",
+ *              },
+ *
+ *   "get_user_by_id"={
+ *                  "method"="GET",
+ *                    "path" = "/user/{id}",
+ *                     "normalization_context"={"groups"={"usersRead:read"}},
  *              },
  *
  *      },
- *    )
+ *
+ * )
+ *  @ApiFilter(SearchFilter::class, properties={"type": "exact"})
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -49,6 +61,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups ({"usersRead:read"})
      */
     private $email;
 
@@ -58,31 +71,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups ({"usersRead:read"})
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups ({"usersRead:read"})
      */
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups ({"usersRead:read"})
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups ({"usersRead:read"})
      */
     private $adresse;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups ({"usersRead:read"})
      */
     private $telephone;
 
     /**
      * @ORM\Column(type="blob", nullable=true)
+     * @Groups ({"usersRead:read"})
      */
     private $avatar;
 
