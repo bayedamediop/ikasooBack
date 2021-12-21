@@ -8,6 +8,7 @@ use App\Entity\AdminSysteme;
 use App\Entity\Profils;
 use App\Entity\User;
 use App\Entity\Utilisateur;
+use App\Repository\UserRepository;
 use App\Service\UserService;
 use App\Service\ValidatorService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -156,22 +157,22 @@ class AdminSystemeController extends AbstractController
 
     /**
      * @Route(
-     *  name = "archiveArticle",
-     *  path = "/api/admin/article/{id}",
-     *  methods = {"DELETE"},
+     *  name = "archiveUser",
+     *  path = "/api/admin/user/{id}",
+     *  methods = {"PUT"},
      *  defaults  = {
-     *      "__controller"="App\Controller\AdminHotelController::archiveArticle",
-     *      "__api_ressource_class"=Article::class,
-     *      "__api_collection_operation_name"="archive_article"
+     *      "__controller"="App\Controller\AdminSystemeController::archiveUser",
+     *      "__api_ressource_class"=User::class,
+     *      "__api_collection_operation_name"="archive_user"
      * }
      * )
      */
-    public function archiveArticle($id,ArticleRepository $articleRepository,EntityManagerInterface $manager)
+    public function archiveUser($id,UserRepository $userRepository,EntityManagerInterface $manager)
     {
-        $user = $articleRepository->find($id);
-        $user->setArchivage(true);
+        $user = $userRepository->find($id);
+        $user->setArchivage(false);
         $manager->flush();
-        return new JsonResponse("Article Archivé!!!!!!!",200,[],true);
+        return new JsonResponse("Archivé Success !!!!!!!",200,[],true);
 
     }
 
