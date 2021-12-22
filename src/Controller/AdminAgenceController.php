@@ -105,18 +105,19 @@ class AdminAgenceController extends AbstractController
      *         }
      * )
      */
-    public function reservation( Request $request,ReservationsRepository $repository,ArticlesRepository $articleRepository): JsonResponse
+    public function reservation( Request $request,ReservationsRepository $repository,
+                                 ArticlesRepository $articleRepository,UserRepository $userRepository): JsonResponse
     {
         $json = json_decode($request->getContent(), 'json');
         //dd($json['reservation'][0]['article']);
         $article=$articleRepository->find((int)$json['reservation'][0]['article']);
-        // dd($article);
+         //dd($article->getUser()->getId());
         $dateFin=new \DateTime($json['reservation'][0]['dateFin']);
         // dd($dateFin);
         $dateDebut=new \DateTime($json['reservation'][0]['dateDebut']);
         $reservation = $repository->findOneBy(['article' => $article], ['id' => 'desc']);
 
-
+        $idUser = $userRepository->find((int)$article->getUser()->getId());
         $client = new Client();
         $client->setNomComplet($json['prenomClient'])
 
@@ -128,7 +129,8 @@ class AdminAgenceController extends AbstractController
         $reservation->setDateDebut($dateDebut)
             ->setDateFin(($dateFin) )
             ->setClient($client)
-            ->setArticle($article);
+            ->setArticle($article)
+            ->setUser($idUser);
         $em->persist($reservation);
         $em->flush();
         return new JsonResponse([
@@ -310,7 +312,7 @@ class AdminAgenceController extends AbstractController
         $userConnecte = $this->getUser()->getId();
         $livrablepartiel = $reservationsRepository->ifUserInResevation($userConnecte);
 
-        if ($livrablepartiel) {
+        if ($livrablepartiel && $livrablepartiel[0]->getDateValidation() != null ) {
            // dd($livrablepartiel[0]->getDateValidation() == null);
 //            for ($i=0; $i < count($livrablepartiel) ; $i++) {
 //                $articlr= $reservationsRepository->ifArticleInResevation($livrablepartiel[$i]->getId());
