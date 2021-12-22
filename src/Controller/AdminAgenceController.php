@@ -292,5 +292,36 @@ class AdminAgenceController extends AbstractController
         return new JsonResponse("L' annulation effectue avec success !!!!!!!",200,[],true);
     }
 
+//les commentaires d'un livrable partiel
+    /**
+     * @Route(
+     *  name = "getReservationdunUser",
+     *  path = "/api/admin/reservationArticle",
+     *  methods = {"GET"},
+     *  defaults  = {
+     *      "__controller"="App\Controller\AdminAgenceController::getReservationdunUser",
+     *      "__api_ressource_class"=Articles::class,
+     *      "__api_collection_operation_name"="get_reservationdunUser"
+     * }
+     * )
+     */
+    public function getReservationdunUser(ArticlesRepository $articlesRepository,ReservationsRepository $reservationsRepository)
+    {
+        $userConnecte = $this->getUser()->getId();
+        $livrablepartiel = $reservationsRepository->ifUserInResevation($userConnecte);
+
+        if ($livrablepartiel) {
+//            for ($i=0; $i < count($livrablepartiel) ; $i++) {
+//                $articlr= $reservationsRepository->ifArticleInResevation($livrablepartiel[$i]->getId());
+                return $this->json($livrablepartiel,200,[],['groups'=>"getReservationdunUser"]);
+//            }
+                //dd($livrablepartiel[0]->getId());
+
+            //$articlr = $articlesRepository->ifUserInArticle($userConnecte);
+
+            //sreturn $this->json($livrablepartiel,200,[],['groups'=>"getReservationdunUser"]);
+        }
+        return new JsonResponse("ececc!!!!!!!",400,[],false);
+    }
 
 }

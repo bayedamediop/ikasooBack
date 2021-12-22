@@ -47,4 +47,17 @@ class ReservationsRepository extends ServiceEntityRepository
         ;
     }
     */
+    // /**
+    //  * @return liste des reservation d' un article[]
+    //  */
+
+    public function ifUserInResevation($id)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.user = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

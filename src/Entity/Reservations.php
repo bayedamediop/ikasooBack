@@ -2,11 +2,15 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use App\Repository\ReservationsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 
 /**
  * @ORM\Entity(repositoryClass=ReservationsRepository::class)
+ * @ApiFilter(BooleanFilter::class, properties={"archivage"})
  */
 class Reservations
 {
@@ -19,6 +23,7 @@ class Reservations
 
     /**
      * @ORM\ManyToOne(targetEntity=Articles::class, inversedBy="reservations")
+     *@Groups ({"getReservationdunUser"})
      */
     private $article;
 
@@ -29,11 +34,13 @@ class Reservations
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *  @Groups ({"getReservationdunUser"})
      */
     private $dateDebut;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *  @Groups ({"getReservationdunUser"})
      */
     private $dateFin;
 
@@ -46,6 +53,11 @@ class Reservations
      * @ORM\Column(type="date", nullable=true)
      */
     private $dateValidation;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reservations")
+     */
+    private $user;
 
     public function getId(): ?int
     {
@@ -120,6 +132,18 @@ class Reservations
     public function setDateValidation(?\DateTimeInterface $dateValidation): self
     {
         $this->dateValidation = $dateValidation;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

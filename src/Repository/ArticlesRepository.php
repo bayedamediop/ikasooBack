@@ -47,4 +47,18 @@ class ArticlesRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    // /**
+    //  * @return liste des reservation d' un article[]
+    //  */
+
+    public function ifUserInArticle($id)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.user = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

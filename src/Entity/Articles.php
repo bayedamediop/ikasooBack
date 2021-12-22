@@ -20,7 +20,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                    "path" = "/admin/articles",
  *                     "normalization_context"={"groups"={"articlesRead:read"}},
  *              },
+ *    "get_reservationdunUser"={
+ *                  "route_name"="getReservationdunUser",
  *
+ *              },
  *      },
  *      itemOperations={
  *   "get_article_by_id"={
@@ -28,6 +31,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *                    "path" = "/admin/article/{id}",
  *                     "normalization_context"={"groups"={"articlesRead:read"}},
  *              },
+ *
  *
  *      },
  *     )
@@ -44,13 +48,13 @@ class Articles
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups ({"articlesRead:read"})
+     * @Groups ({"articlesRead:read","getReservationdunUser"})
      */
     private $titre;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups ({"articlesRead:read"})
+     * @Groups ({"articlesRead:read","getReservationdunUser"})
      */
     private $description;
 
@@ -68,13 +72,13 @@ class Articles
 
     /**
      * @ORM\Column(type="blob")
-     * @Groups ({"articlesRead:read"})
+     * @Groups ({"articlesRead:read","getReservationdunUser"})
      */
     private $image3D;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups ({"articlesRead:read"})
+     * @Groups ({"articlesRead:read","getReservationdunUser"})
      */
     private $adresse;
 
@@ -90,11 +94,13 @@ class Articles
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
+     *  @Groups ({"getReservationdunUser"})
      */
     private $user;
 
     /**
      * @ORM\OneToMany(targetEntity=Reservations::class, mappedBy="article")
+     *
      */
     private $reservations;
 
