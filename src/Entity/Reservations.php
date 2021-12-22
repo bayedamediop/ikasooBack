@@ -17,7 +17,27 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
  *          "get_reservationdunUser"={
  *                  "route_name"="getReservationdunUser",
  *              },
+ *     "get_reservation_d_un_user"={
+ *                  "method"="GET",
+ *                    "path" = "/admin/reservations",
+ *                     "normalization_context"={"groups"={"reservationRead:read"}},
+ *              },
  *
+ *      },
+ *     itemOperations={
+ *
+ *     "archive_user"={
+ *                  "route_name"="archiveUser",
+ *              },
+ *      "put_user"={
+ *                 "route_name"="putUser",
+ *              },
+ *
+ *   "get_reservation_by_id"={
+ *                  "method"="GET",
+ *                    "path" = "/reservation/{id}",
+ *                     "normalization_context"={"groups"={"reservationRead:read"}},
+ *              },
  *
  *      },
  *
@@ -37,7 +57,7 @@ class Reservations
 
     /**
      * @ORM\ManyToOne(targetEntity=Articles::class, inversedBy="reservations")
-     *@Groups ({"getReservationdunUser"})
+     *@Groups ({"getReservationdunUser","reservationRead:read"})
      */
     private $article;
 
@@ -48,13 +68,13 @@ class Reservations
 
     /**
      * @ORM\Column(type="date", nullable=true)
-     *  @Groups ({"getReservationdunUser"})
+     *  @Groups ({"getReservationdunUser","reservationRead:read"})
      */
     private $dateDebut;
 
     /**
      * @ORM\Column(type="date", nullable=true)
-     *  @Groups ({"getReservationdunUser"})
+     *  @Groups ({"getReservationdunUser","reservationRead:read"})
      */
     private $dateFin;
 
