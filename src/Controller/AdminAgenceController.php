@@ -300,7 +300,7 @@ class AdminAgenceController extends AbstractController
      *  methods = {"GET"},
      *  defaults  = {
      *      "__controller"="App\Controller\AdminAgenceController::getReservationdunUser",
-     *      "__api_ressource_class"=Articles::class,
+     *      "__api_ressource_class"=Reservations::class,
      *      "__api_collection_operation_name"="get_reservationdunUser"
      * }
      * )
@@ -311,6 +311,7 @@ class AdminAgenceController extends AbstractController
         $livrablepartiel = $reservationsRepository->ifUserInResevation($userConnecte);
 
         if ($livrablepartiel) {
+           // dd($livrablepartiel[0]->getDateValidation() == null);
 //            for ($i=0; $i < count($livrablepartiel) ; $i++) {
 //                $articlr= $reservationsRepository->ifArticleInResevation($livrablepartiel[$i]->getId());
                 return $this->json($livrablepartiel,200,[],['groups'=>"getReservationdunUser"]);

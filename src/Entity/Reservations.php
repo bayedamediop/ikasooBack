@@ -3,14 +3,28 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ReservationsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 
 /**
  * @ORM\Entity(repositoryClass=ReservationsRepository::class)
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get_reservationdunUser"={
+ *                  "route_name"="getReservationdunUser",
+ *              },
+ *
+ *
+ *      },
+ *
+ * )
  * @ApiFilter(BooleanFilter::class, properties={"archivage"})
+ * @ApiFilter(DateFilter::class, properties={"dateValidation"})
+ *
  */
 class Reservations
 {
